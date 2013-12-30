@@ -256,3 +256,29 @@ let에는 이전에 간단하게 사용된 것들보다 좀 더 다양한 방식
 let (a, b) = get_tuple_of_two_ints();
 '''
 let의 패턴은 모든 경우의 수를 지원하는 경우에만 가능하다. 이 때문에 let 패턴에는 상수나 enum 변수를 사용할 수 없다.
+
+* Loop
+
+while 은 주어진 조건(bool 형이여야 한다)이 참인 경우 반복되는 구문이다.
+반복문 안에서 break 를 사용하여 반복문을 중단시킬 수 있다.
+continue 를 사용하여 반복문의 현재 주기를 중단하고 다음 주기로 넘어갈수 있다.
+
+'''
+let mut cake_amount = 8;
+while cake_amount > 0 {
+    cake_amount -= 1;
+}
+'''
+
+loop 문은 무한루프로 사용되며, while true와 동일하게 사용된다.
+
+'''
+let mut x = 5u;
+loop {
+    x += x - 3;
+    if x % 5 == 0 { break; }
+    println(x.to_str());
+}
+'''
+
+이 코드는 5로 나눠지는 숫자를 찾을때까지 숫자 몇개를 출력한다.
