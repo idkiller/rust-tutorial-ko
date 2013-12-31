@@ -282,3 +282,47 @@ loop {
 '''
 
 이 코드는 5로 나눠지는 숫자를 찾을때까지 숫자 몇개를 출력한다.
+
+* 자료 구조
+
+* 구조체
+
+Rust의 구조체는 반드시 struct문을 사용해서 정의한 후 사용해야 한다.
+struct Name { field1: T1, field2: T2 [, ...] } (T1, T2는 type)
+구조체를 사용할때도 동일한 문법을 사용하지만 struct만 빼면 된다, 예를 들어 Point { x: 1.0, y: 2.0}
+
+구조체는 C의 구조체와 매우 비슷해서 메모리를 같은 방식으로 사용하며, (그래서 Rust에서 C 의 구조체를 읽을 수 있다. 반대도 마찬가지.)
+dot(.)을 사용해서 구조체에 접근 할수 있다. mypoint.x 처럼
+'''
+struct Point {
+    x: f64,
+    y: f64
+}
+'''
+구조체는 가변성 상속 이라는 속성이 있어서, 구조체가 변환 가능한 변수에 있으면, 구조체의 field도 변환 가능하다.
+변환 가능한 변수로 구조체(mypoint라 하면)를 만들게 되면, mypoint.y += 1.0과 같이 사용할 수 있다.
+그러나 변환 불가능한 곳, 예를 들어 구조체를 변환 불가능한 변수에 할당했다면, field를 할당하려 할시, type error가 발생한다.
+'''
+let mut mypoint = Point { x: 1.0, y: 1.0 };
+let origin = Point { x: 0.0, y: 0.0 };
+
+mypoint.y += 1.0; // mypoint는 변환 가능하며, field 또한 변환 가능하다.
+origin.y += 1.0; // ERROR: 변환 불가능한 field에 할당 하려 시도.
+'''
+
+match 에서 패턴으로 구조체를 destructure 해서 사용한다. 기본 문법은 Name { fieldname: pattern, ...}
+'''
+match mypoint {
+    Point { x: 0.0, y: yy} => { println(yy.to_str()); }
+    Point { x: xx, y: yy} => { println(xx.to_str() + " " + yy.to_str()); }
+}
+'''
+
+일반적으로 구조체의 field이름을 type에 있는 순서대로 쓸 필요는 없다.
+만약 구조체의 field에 관심 없다면, 구조체를 ,.. 와 함께 끝낼 수 있다. (Name { field1, ..} 처럼)
+이것은 구조체의 나머지 field를 무시한다는 것이다. 추가로, 필드 이름을 짧게 쓰고, 동작부에서 다시 사용할 수 있다.
+'''
+match mypoint {
+    Point { x, .. } => { println(x.to_str()) }
+}
+'''
